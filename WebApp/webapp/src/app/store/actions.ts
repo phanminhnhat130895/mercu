@@ -3,7 +3,8 @@ import { CandidateFilterModel } from "../models/output/get-candidate-filter.mode
 import { CandidateModel } from "../models/input/candidate.model";
 import { InterviewerModel } from "../models/input/interviewer.model";
 import { UpdateCandidateModel } from "../models/output/update-candidate.model";
-import { CandidateJobStatusEnum } from "../common/enums/CandidateJobStatusEnum";
+import { CandidatesModel } from "../models/input/candidates.model";
+import { UpdateCandidatesStatus } from "../models/output/update-candidates-status.model";
 
 enum ActionTypes {
     GET_CANDIDATES = 'Get Candidates',
@@ -20,14 +21,17 @@ enum ActionTypes {
     GET_SELECTED_CANDIDATE = 'Get Selected Candidate',
     GET_SELECTED_CANDIDATE_SUCCESS = 'Get Selected Candidate Success',
     GET_SELECTED_CANDIDATE_ERROR = 'Get Selected Candidate Error',
-    UPDATE_CANDIDATE_JOB_STATUS = 'Update Candidate Job Status',
-    UPDATE_CANDIDATE_JOB_STATUS_SUCCESS = 'Update Candidate Job Status Success',
-    UPDATE_CANDIDATE_JOB_STATUS_ERROR = 'Update Candidate Job Status Error',
+    SELECT_CANDIDATE_TO_DRAG = 'Select Candidate To Drag',
+    REMOVE_CANDIDATE_TO_DRAG = 'Remove Candidate To Drag',
+    GET_DRAG_CANDIDATES = 'Get Drag Candidates',
+    UPDATE_CANDIDATES_STATUS = 'Update Candidates Status',
+    UPDATE_CANDIDATES_STATUS_SUCCESS = 'Update Candidates Status Success',
+    UPDATE_CANDIDATES_STATUS_ERROR = 'Update Candidates Status Error'
 }
 
 export const getCandidates = createAction(ActionTypes.GET_CANDIDATES, props<{ payload: CandidateFilterModel }>());
 
-export const getCandidatesSuccess = createAction(ActionTypes.GET_CANDIDATES_SUCCESS, props<{ candidates: CandidateModel[] }>());
+export const getCandidatesSuccess = createAction(ActionTypes.GET_CANDIDATES_SUCCESS, props<{ candidates: CandidatesModel[] }>());
 
 export const getCandidatesError = createAction(ActionTypes.GET_CANDIDATES_ERROR);
 
@@ -53,8 +57,14 @@ export const getSelectedCandidateSuccess = createAction(ActionTypes.GET_SELECTED
 
 export const getSelectedCandidateError = createAction(ActionTypes.GET_SELECTED_CANDIDATE_ERROR);
 
-export const updateCandidateJobStatus = createAction(ActionTypes.UPDATE_CANDIDATE_JOB_STATUS, props<{ payload: { id: string, status: CandidateJobStatusEnum } }>());
+export const selectCandidateToDrag = createAction(ActionTypes.SELECT_CANDIDATE_TO_DRAG, props<{ candidate: CandidatesModel }>());
 
-export const updateCandidateJobStatusSuccess = createAction(ActionTypes.UPDATE_CANDIDATE_JOB_STATUS_SUCCESS, props<{ isSuccess: boolean }>());
+export const removeCandidateToDrag = createAction(ActionTypes.REMOVE_CANDIDATE_TO_DRAG, props<{ id: string }>());
 
-export const updateCandidateJobStatusError = createAction(ActionTypes.UPDATE_CANDIDATE_JOB_STATUS_ERROR);
+export const getDragCandidate = createAction(ActionTypes.GET_DRAG_CANDIDATES);
+
+export const updateCandidatesStatus = createAction(ActionTypes.UPDATE_CANDIDATES_STATUS, props<{ data: UpdateCandidatesStatus[] }>());
+
+export const updateCandidatesStatusSuccess = createAction(ActionTypes.UPDATE_CANDIDATES_STATUS_SUCCESS, props<{ isSuccess: boolean }>());
+
+export const updateCandidatesStatusError = createAction(ActionTypes.UPDATE_CANDIDATES_STATUS_ERROR);

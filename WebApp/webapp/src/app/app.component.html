@@ -1,3 +1,8 @@
 <tui-root>
-<router-outlet></router-outlet>
+    <tui-loader class="loader"
+        [showLoader]="loader"
+        [inheritColor]="true"
+        [overlay]="true">
+        <router-outlet></router-outlet>
+    </tui-loader>
 </tui-root>

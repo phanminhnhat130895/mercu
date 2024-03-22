@@ -1,0 +1,6 @@
+<div *ngFor="let candidate of candidates">
+    <div (drop)="onDropCandidate()">
+        <h3>{{ StatusName(status) }}</h3>
+        <app-cadidate-card [candidate]="candidate"></app-cadidate-card>
+    </div>
+</div>

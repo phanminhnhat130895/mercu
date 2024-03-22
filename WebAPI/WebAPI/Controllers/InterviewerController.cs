@@ -21,8 +21,7 @@ namespace WebAPI.Controllers
         [Route("interviewers")]
         public async Task<IActionResult> GetInterviewersAsync(CancellationToken token)
         {
-            var response = await _mediator.Send(new GetInterviewersRequest());
-
+            var response = await _mediator.Send(new GetInterviewersRequest(), token);
             return Ok(response);
         }
     }

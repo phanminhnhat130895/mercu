@@ -1,10 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { CandidateFilterModel } from "../models/output/get-candidate-filter.model";
 import { environment } from "src/environments/environment";
+import { CandidateFilterModel } from "../models/output/get-candidate-filter.model";
 import { UpdateCandidateModel } from "../models/output/update-candidate.model";
-import { CandidateJobStatusEnum } from "../common/enums/CandidateJobStatusEnum";
 import { CandidateModel } from "../models/input/candidate.model";
+import { CandidatesModel } from "../models/input/candidates.model";
+import { UpdateCandidatesStatus } from "../models/output/update-candidates-status.model";
 
 @Injectable()
 export class CandidateService {
@@ -13,7 +14,7 @@ export class CandidateService {
     private readonly apiPrefix = 'api/candidate'
 
     getCandidates(filter: CandidateFilterModel) {
-        return this.httpClient.get<CandidateModel[]>(`${environment.apiUrl}/${this.apiPrefix}/candidates?SearchString=${filter.SearchName}&SearchDate=${filter.SearchDate}&InterviewerId=${filter.InterviewerId}`);
+        return this.httpClient.get<CandidatesModel[]>(`${environment.apiUrl}/${this.apiPrefix}/candidates?SearchString=${filter.SearchName}&SearchDate=${filter.SearchDate}&InterviewerId=${filter.InterviewerId}`);
     }
 
     getCandidateById(id: string) {
@@ -24,7 +25,7 @@ export class CandidateService {
         return this.httpClient.put<CandidateModel>(`${environment.apiUrl}/${this.apiPrefix}/candidate`, data);
     }
 
-    updateCandidateJobStatus(id: string, status: CandidateJobStatusEnum) {
-        return this.httpClient.patch<boolean>(`${environment.apiUrl}/${this.apiPrefix}/candidate-job-status?id=${id}&status=${status}`, null);
+    updateCandidatesStatus(data: UpdateCandidatesStatus[]) {
+        return this.httpClient.patch<boolean>(`${environment.apiUrl}/${this.apiPrefix}/candidates-status`, data);
     }
 }

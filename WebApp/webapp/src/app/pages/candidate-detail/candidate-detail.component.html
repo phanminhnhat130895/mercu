@@ -1,0 +1,135 @@
+<form [formGroup]="candidateForm">
+    <div class="tui-row tui-row_sme">
+        <div class="tui-col_8">
+            <div class="tui-form__row">
+                <tui-input
+                    formControlName="firstName"
+                >
+                    First Name
+                    <input
+                        tuiTextfield
+                    />
+                    <span class="tui-required"></span>
+                </tui-input>
+                <tui-error
+                    formControlName="firstName"
+                    [error]="[] | tuiFieldError | async"
+                ></tui-error>
+            </div>
+
+            <div class="tui-form__row">
+                <tui-input
+                    formControlName="lastName"
+                >
+                    Last Name
+                    <input
+                        tuiTextfield
+                    />
+                    <span class="tui-required"></span>
+                </tui-input>
+                <tui-error
+                    formControlName="lastName"
+                    [error]="[] | tuiFieldError | async"
+                ></tui-error>
+            </div>
+
+            <div class="tui-form__row">
+                <tui-input
+                    formControlName="email"
+                >
+                    Email
+                    <input
+                        tuiTextfield
+                    />
+                    <span class="tui-required"></span>
+                </tui-input>
+                <tui-error
+                    formControlName="email"
+                    [error]="[] | tuiFieldError | async"
+                ></tui-error>
+            </div>
+
+            <div class="tui-form__row">
+                <tui-input-phone-international
+                    formControlName="phoneNumber"
+                    [countries]="(countries | tuiSortCountries | async) || []"
+                    [(countryIsoCode)]="countryIsoCode"
+                >
+                    Phone Number
+                </tui-input-phone-international>
+                <tui-error
+                    formControlName="phoneNumber"
+                    [error]="[] | tuiFieldError | async"
+                ></tui-error>
+            </div>
+
+            <div class="tui-form__row">
+                <button
+                    appDebounceClick
+                    [debounceTime]="500"
+                    appearance="primary"
+                    tuiButton
+                    type="button"
+                    class="tui-space_right-3 tui-space_bottom-3"
+                    (click)="saveCandidate()"
+                >
+                    Save
+                </button>
+            </div>
+
+            <div class="tui-form__row">
+                <label><b>Jobs</b></label>
+                <table
+                    tuiTable
+                    class="table"
+                    [columns]="columns"
+                >
+                    <thead>
+                        <tr tuiThGroup>
+                            <th tuiTh>
+                                Title
+                            </th>
+                            <th 
+                                tuiTh
+                                [resizable]="true"
+                            >
+                                Description
+                            </th>
+                            <th tuiTh>
+                                Interviewer
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody
+                        tuiTbody
+                        [data]="jobs"
+                    >
+                        <tr
+                            *ngFor="let job of jobs"
+                            tuiTr
+                        >
+                            <td
+                                *tuiCell="'title'"
+                                tuiTd
+                            >
+                                {{ item.Job.Title }}
+                            </td>
+                            <td
+                                *tuiCell="'description'"
+                                tuiTd
+                            >
+                                {{ item.Job.Description | truncate:100 }}
+                            </td>
+                            <td
+                                *tuiCell="'interviewer'"
+                                tuiTd
+                            >
+                                {{ item.Interviewer.FirstName }} {{ item.Interviewer.LastName }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>

@@ -23,6 +23,8 @@ namespace Domain.Entities
         [MaxLength(255)]
         public string Email { get; set; }
 
+        public CandidateStatusEnum Status { get; set; }
+
         public ICollection<CandidateJob> Jobs { get; set; }
     }
 }

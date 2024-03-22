@@ -1,6 +1,6 @@
 ﻿namespace Domain.Common.Enum
 {
-    public enum CandidateJobStatusEnum
+    public enum CandidateStatusEnum
     {
         Applied,
         Interviewing,

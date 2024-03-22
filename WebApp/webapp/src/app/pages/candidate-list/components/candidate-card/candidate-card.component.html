@@ -1,0 +1,26 @@
+<div
+    tuiCardLarge
+    tuiSurface="elevated"
+    (click)="goToCandidateDetail()"
+    (dragstart)="onDragCandidate()"
+>
+    <header tuiHeader>
+        <h3 tuiTitle>{{candidate.FirstName}} - {{ candidate.LastName }}</h3>
+    </header>
+
+    <div>
+        <label><b>Email:</b> {{ candidate.Email }}</label>
+    </div>
+
+    <div>
+        <label><b>Phone Number:</b> {{ candidate.PhoneNumber }}</label>
+    </div>
+
+    <div>
+        <tui-checkbox
+            [ngModel]="isChecked"
+            (ngModelChanged)="onChecked()"
+            class="tui-space_bottom-3"
+        ></tui-checkbox>
+    </div>
+</div>

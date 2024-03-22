@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
         [Route("candidate")]
         public async Task<IActionResult> GetCandidateByIdAsync([FromQuery] Guid id, CancellationToken token)
         {
-            var response = await _mediator.Send(new GetCandidateByIdRequest() { Id = id });
+            var response = await _mediator.Send(new GetCandidateByIdRequest() { Id = id }, token);
             return Ok(response);
         }
 
@@ -46,11 +46,11 @@ namespace WebAPI.Controllers
             return Ok(response);
         }
 
-        [HttpPatch(Name = "UpdateCandidateJobStatusAsync")]
-        [Route("candidate-job-status")]
-        public async Task<IActionResult> UpdateCandidateJobStatusAsync([FromQuery] Guid id, [FromQuery] CandidateJobStatusEnum status, CancellationToken token)
+        [HttpPatch(Name = "UpdateCandidateStatusAsync")]
+        [Route("candidate-status")]
+        public async Task<IActionResult> UpdateCandidateStatusAsync([FromBody] UpdateCandidateStatusRequest request, CancellationToken token)
         {
-            var response = await _mediator.Send(new UpdateCandidateJobStatusRequest() { Id = id, Status = status });
+            var response = await _mediator.Send(request, token);
             return Ok(response);
         }
     }

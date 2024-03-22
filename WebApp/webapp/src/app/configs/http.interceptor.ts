@@ -15,7 +15,7 @@ export class ConfigInterceptor implements HttpInterceptor {
     })
 
     return next.handle(request).pipe(
-      retry(1),
+      retry(3),
       map((event: HttpEvent<any>) => {
         return event;
       }),

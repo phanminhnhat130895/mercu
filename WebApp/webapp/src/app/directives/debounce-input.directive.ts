@@ -2,15 +2,15 @@ import { Directive, HostListener } from "@angular/core";
 import { AbstractDebounceDirective } from "./abstract-debounce.directive";
 
 @Directive({
-  selector: "[appDebounceClick]"
+  selector: "[appDebounceInput]"
 })
-export class DebounceClickDirective extends AbstractDebounceDirective {
+export class DebounceInputDirective extends AbstractDebounceDirective {
   constructor() {
     super();
   }
 
-  @HostListener("click", ["$event"])
-  public onClick(event: any): void {
+  @HostListener("keyup", ["$event"])
+  public onKeyUp(event: any): void {
     event.preventDefault();
     this.emitEvent$.next(event);
   }

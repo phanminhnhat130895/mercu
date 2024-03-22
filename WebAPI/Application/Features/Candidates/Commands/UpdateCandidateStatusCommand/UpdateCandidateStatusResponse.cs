@@ -1,6 +1,6 @@
 ﻿namespace Application.Features.Candidates.Commands.UpdateCandidateStatusCommand
 {
-    public class UpdateCandidateJobStatusResponse
+    public class UpdateCandidateStatusResponse
     {
         public bool IsSuccess { get; set; }
     }

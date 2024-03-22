@@ -21,7 +21,7 @@ namespace Application.Features.Candidates.Queries.GetAllCandidateQuery
 
             var candidates = await _candidateRepository.GetCandidatesAsync(request.SearchString, request.SearchDate, request.InterviewerId, cancellationToken);
 
-            var data = _mapper.Map<List<CandidateViewModel>>(candidates);
+            var data = _mapper.Map<List<CandidatesViewModel>>(candidates);
             result.Candidates = data;
 
             return result;

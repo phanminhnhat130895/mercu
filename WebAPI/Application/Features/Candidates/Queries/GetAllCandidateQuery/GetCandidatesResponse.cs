@@ -4,6 +4,6 @@ namespace Application.Features.Candidates.Queries.GetAllCandidateQuery
 {
     public class GetCandidatesResponse
     {
-        public List<CandidateViewModel> Candidates { get; set; }
+        public List<CandidatesViewModel> Candidates { get; set; }
     }
 }

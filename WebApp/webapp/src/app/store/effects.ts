@@ -1,16 +1,21 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { CandidateService } from "../services/candidate.service";
-import { getCandidates, getCandidatesError, getCandidatesSuccess, getInterviewers, getInterviewersError, getInterviewersSuccess, getSelectedCandidate, getSelectedCandidateError, getSelectedCandidateSuccess, updateCandidate, updateCandidateError, updateCandidateJobStatus, updateCandidateJobStatusError, updateCandidateJobStatusSuccess, updateCandidateSuccess } from "./actions";
+import { getCandidates, getCandidatesError, getCandidatesSuccess, getInterviewers, 
+    getInterviewersError, getInterviewersSuccess, getSelectedCandidate, getSelectedCandidateError, 
+    getSelectedCandidateSuccess, updateCandidate, updateCandidateError, updateCandidateSuccess, 
+    updateCandidatesStatus, updateCandidatesStatusError, updateCandidatesStatusSuccess } from "./actions";
 import { catchError, exhaustMap, map } from "rxjs";
 import { InterviewerService } from "../services/interviewer.service";
+import { TuiAlertService } from '@taiga-ui/core';
 
 @Injectable()
 export class StateEffects {
     constructor (
         private readonly actions$: Actions,
         private readonly candidateService: CandidateService,
-        private readonly interviewerService: InterviewerService
+        private readonly interviewerService: InterviewerService,
+        private readonly alerts: TuiAlertService
     ) {}
 
     loadCandidates$ = createEffect(() => {
@@ -19,7 +24,10 @@ export class StateEffects {
             exhaustMap(data => this.candidateService.getCandidates(data.payload)
                 .pipe(
                     map(response => getCandidatesSuccess({ candidates: response })),
-                    catchError(async () => getCandidatesError())
+                    catchError(async () => {
+                        this.alerts.open('Something went wrong!', { label: 'Error', status: 'error', hasIcon: false });
+                        return getCandidatesError();
+                    })
                 )
             )
         )
@@ -31,7 +39,10 @@ export class StateEffects {
             exhaustMap(_ => this.interviewerService.getInterviewers()
                 .pipe(
                     map(response => getInterviewersSuccess({ interviewers: response })),
-                    catchError(async () => getInterviewersError())
+                    catchError(async () => {
+                        this.alerts.open('Something went wrong!', { label: 'Error', status: 'error', hasIcon: false });
+                        return getInterviewersError();
+                    })
                 )
             )
         )
@@ -43,7 +54,10 @@ export class StateEffects {
             exhaustMap(data => this.candidateService.getCandidateById(data.id)
                 .pipe(
                     map(response => getSelectedCandidateSuccess({ candidate: response })),
-                    catchError(async () => getSelectedCandidateError())
+                    catchError(async () => {
+                        this.alerts.open('Something went wrong!', { label: 'Error', status: 'error', hasIcon: false });
+                        return getSelectedCandidateError();
+                    })
                 )
             )
         )
@@ -55,19 +69,25 @@ export class StateEffects {
             exhaustMap(data => this.candidateService.updateCandidate(data.payload)
                 .pipe(
                     map(response => updateCandidateSuccess({ candidate: response })),
-                    catchError(async () => updateCandidateError())
+                    catchError(async () => {
+                        this.alerts.open('Something went wrong!', { label: 'Error', status: 'error', hasIcon: false });
+                        return updateCandidateError();
+                    })
                 )
             )
         )
     });
 
-    updateCandidateJobStatus$ = createEffect(() => {
+    updateCandidatesStatus$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(updateCandidateJobStatus),
-            exhaustMap(data => this.candidateService.updateCandidateJobStatus(data.payload.id, data.payload.status)
+            ofType(updateCandidatesStatus),
+            exhaustMap(payload => this.candidateService.updateCandidatesStatus(payload.data)
                 .pipe(
-                    map(resposne => updateCandidateJobStatusSuccess({ isSuccess: resposne })),
-                    catchError(async () => updateCandidateJobStatusError())
+                    map(response => updateCandidatesStatusSuccess({ isSuccess: response })),
+                    catchError(async () => {
+                        this.alerts.open('Something went wrong!', { label: 'Error', status: 'error', hasIcon: false });
+                        return updateCandidatesStatusError();
+                    })
                 )
             )
         )

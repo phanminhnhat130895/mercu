@@ -8,8 +8,10 @@ namespace Application.AutoMapper
     {
         public CandidateProfile() 
         {
+            CreateMap<Job, JobViewModel>();
             CreateMap<CandidateJob, CandidateJobViewModel>();
             CreateMap<Candidate, CandidateViewModel>();
+            CreateMap<Candidate, CandidatesViewModel>();
         }
     }
 }

@@ -48,4 +48,19 @@ export const reducer = createReducer<AppState>(
     on(actions.getSelectedCandidateError, (state) => {
         return { ...state, isLoadingSelectedCandidate: false };
     }),
+    on(actions.updateCandidatesStatus, (state) => {
+        return { ...state, isUpdatingCandidateStatus: true };
+    }),
+    on(actions.updateCandidatesStatusSuccess, (state) => {
+        return { ...state, isUpdatingCandidateStatus: false };
+    }),
+    on(actions.updateCandidatesStatusError, (state) => {
+        return { ...state, isUpdatingCandidateStatus: false };
+    }),
+    on(actions.selectCandidateToDrag, (state, request) => {
+        return { ...state, dragCandidates: [...state.dragCandidates, request.candidate] };
+    }),
+    on(actions.removeCandidateToDrag, (state, request) => {
+        return { ...state, dragCandidates: state.dragCandidates.filter(x => x.Id !== request.id) };
+    })
 )

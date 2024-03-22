@@ -1,4 +1,4 @@
-export enum CandidateJobStatusEnum {
+export enum CandidateStatusEnum {
     Applied,
     Interviewing,
     Offered,

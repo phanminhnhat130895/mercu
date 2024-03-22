@@ -1,5 +1,5 @@
 export class CandidateFilterModel {
-    public SearchName: string | undefined;
-    public SearchDate: Date | undefined;
-    public InterviewerId: string | undefined; 
+    public SearchName: string | null;
+    public SearchDate: Date | null;
+    public InterviewerId: string | null; 
 }

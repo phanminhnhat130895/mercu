@@ -27,7 +27,7 @@ namespace Infrastructure.Repositories
 
             if (searchDate != null)
             {
-                query = query.Where(_ => _.DateCreated == searchDate);
+                query = query.Where(_ => _.DateCreated >= searchDate && _.DateCreated <= searchDate.Value.AddHours(23).AddMinutes(59).AddSeconds(59));
             }
 
             if (interviewerId != null && interviewerId != Guid.Empty)
@@ -44,6 +44,9 @@ namespace Infrastructure.Repositories
             var candidate = await _context.Candidates
                                     .AsNoTracking()
                                     .Include(_ => _.Jobs)
+                                    .ThenInclude(_ => _.Job)
+                                    .Include(_ => _.Jobs)
+                                    .ThenInclude(_ => _.Interviewer)
                                     .FirstOrDefaultAsync(_ => _.Id == id, token);
 
             return candidate;
@@ -51,43 +54,33 @@ namespace Infrastructure.Repositories
 
         public async Task<Candidate> UpdateCandidateAsync(UpdateCandidateViewModel candidate, CancellationToken token)
         {
-            if (candidate == null) throw new ArgumentNullException("Candidate cannot be null.");
-
             var updateCandidate = await _context.Candidates
-                                            .Include(_ => _.Jobs)
                                             .FirstOrDefaultAsync(_ => _.Id == candidate.Id, token);
 
             if (updateCandidate == null) throw new NotFoundException("Candidate not found.");
-
-            var interviewer = await _context.Interviewers.FirstOrDefaultAsync(_ => _.Id == candidate.InterviewerId);
-
-            if (interviewer == null) throw new NotFoundException("Interviewer not found.");
-
-            var job = updateCandidate.Jobs.FirstOrDefault(_ => _.JobId == candidate.JobId);
-
-            if (job == null) throw new NotFoundException("Job not found.");
-
-            var updatedDate = DateTime.Now;
-            job.InterviewerId = candidate.InterviewerId;
-            job.DateUpdated = updatedDate;
 
             updateCandidate.FirstName = candidate.FirstName;
             updateCandidate.LastName = candidate.LastName;
             updateCandidate.PhoneNumber = candidate.PhoneNumber;
             updateCandidate.Email = candidate.Email;
-            updateCandidate.DateUpdated = updatedDate;
+            updateCandidate.DateUpdated = DateTime.Now;
 
             return updateCandidate;
         }
 
-        public async Task<bool> UpdateCandidateStatusAsync(Guid id, CandidateJobStatusEnum status, CancellationToken token)
+        public async Task<bool> UpdateCandidateStatusAsync(List<UpdateCandidatesStatusViewModel> data, CancellationToken token)
         {
-            var updateCandidateJob = await _context.CandidateJobs.FirstOrDefaultAsync(_ => _.Id == id, token);
+            var updateDate = DateTime.Now;
+            var listId = data.Select(_ => _.Id).ToList();
+            var updateCandidates = await _context.Candidates.Where(_ => listId.Contains(_.Id)).ToListAsync(token);
 
-            if (updateCandidateJob == null) throw new NotFoundException("Candidate job not found.");
-
-            updateCandidateJob.Status = status;
-            updateCandidateJob.DateUpdated = DateTime.Now;
+            foreach(var updateCandidate in updateCandidates)
+            {
+                var updateData = data.FirstOrDefault(_ => _.Id == updateCandidate.Id);
+                if (updateData == null) continue;
+                updateCandidate.Status = updateData.Status;
+                updateCandidate.DateUpdated = updateDate;
+            }
 
             return true;
         }

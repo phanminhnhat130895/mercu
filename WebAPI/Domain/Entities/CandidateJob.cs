@@ -19,6 +19,9 @@ namespace Domain.Entities
         [Required]
         [MaxLength(36)]
         public Guid InterviewerId { get; set; }
-        public CandidateJobStatusEnum Status { get; set; }
+
+        public Job Job { get; set; }
+        public Candidate Candidate { get; set; }
+        public Interviewer Interviewer { get; set; }
     }
 }
