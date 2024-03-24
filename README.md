@@ -16,7 +16,7 @@ Before you begin, ensure you have the following installed:
 1. **Install Angular CLI**: Angular CLI is a command-line interface tool that you use to initialize, develop, scaffold, and maintain Angular applications. Install it globally using npm:
 
     ```bash
-    npm install -g @angular/cli@16.2.2
+    npm install -g @angular/cli
     ```
 
 2. **Navigate to Your Project**: Change your working directory to the webapp project:
