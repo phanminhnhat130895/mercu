@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [Produces("application/json")]
     public class CandidateController : ControllerBase
     {
@@ -31,8 +31,8 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet(Name = "GetCandidateByIdAsync")]
-        [Route("candidate")]
-        public async Task<IActionResult> GetCandidateByIdAsync([FromQuery] Guid id, CancellationToken token)
+        [Route("candidate/{id}")]
+        public async Task<IActionResult> GetCandidateByIdAsync([FromRoute] Guid id, CancellationToken token)
         {
             var response = await _mediator.Send(new GetCandidateByIdRequest() { Id = id }, token);
             return Ok(response);
@@ -47,7 +47,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPatch(Name = "UpdateCandidateStatusAsync")]
-        [Route("candidate-status")]
+        [Route("candidates-status")]
         public async Task<IActionResult> UpdateCandidateStatusAsync([FromBody] UpdateCandidateStatusRequest request, CancellationToken token)
         {
             var response = await _mediator.Send(request, token);

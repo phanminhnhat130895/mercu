@@ -4,25 +4,29 @@ import { InterviewerModel } from "../../models/input/interviewer.model";
 import { CandidateFilterModel } from "../../models/output/get-candidate-filter.model";
 import { TuiDay } from '@taiga-ui/cdk';
 import { CandidateStatusEnum } from "../../common/enums/CandidateStatusEnum";
-import { Subject } from 'rxjs';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
+import { Store } from "@ngrx/store";
+import { AppState } from "src/app/store/state";
+import { getCandidates } from "src/app/store/actions";
+import { SelectInterviewers } from "src/app/store/selectors";
+import { FormControl, FormGroup } from "@angular/forms";
 
 @Component({
     selector: 'app-cadidate-list',
     templateUrl: './candidate-list.component.html',
     providers: [
         tuiItemsHandlersProvider({
-            stringify: (item: InterviewerModel) => `${item.FirstName} ${item.LastName}`,
+            stringify: (item: InterviewerModel) => `${item.firstName} ${item.lastName}`,
         }),
     ],
 })
 export class CandidateListComponent implements OnInit, OnDestroy {
-    constructor() {}
+    constructor(private readonly store$: Store<AppState>) {}
 
     interviewers: InterviewerModel[] = [];
     filter: CandidateFilterModel = new CandidateFilterModel();
-    searchName: string;
     searchDate: TuiDay | null = null;;
-    interviewer: InterviewerModel;
+    interviewer: InterviewerModel | undefined;
     userQuestionUpdate = new Subject<string>();
     displayStatues: CandidateStatusEnum[] = [ 
         CandidateStatusEnum.Applied, 
@@ -30,29 +34,52 @@ export class CandidateListComponent implements OnInit, OnDestroy {
         CandidateStatusEnum.Offered, 
         CandidateStatusEnum.Hired 
     ];
+    searchForm!: FormGroup;
 
-    ngOnDestroy(): void {
-        throw new Error("Method not implemented.");
-    }
+    destroySubject$: Subject<boolean> = new Subject();
 
     ngOnInit(): void {
-        throw new Error("Method not implemented.");
+        this.searchForm = new FormGroup({
+            formSearchName: new FormControl('', []),
+            formSearchDate: new FormControl(this.searchDate, []),
+            formSearchInterviewer: new FormControl(this.interviewer, [])
+        });
+
+        this.store$.select(SelectInterviewers).pipe(
+            takeUntil(this.destroySubject$)
+        ).subscribe(data => {
+            if (data)
+                this.interviewers = data;
+        });
+
+        this.searchForm.get('formSearchName')?.valueChanges.pipe(
+            debounceTime(500),
+            takeUntil(this.destroySubject$)
+        ).subscribe(value => {
+            this.filter = {...this.filter, SearchName: value };
+            this.store$.dispatch(getCandidates({ payload: this.filter }));
+        });
+
+        this.searchForm.get('formSearchDate')?.valueChanges.pipe(
+            takeUntil(this.destroySubject$)
+        ).subscribe(value => {
+            this.filter = {...this.filter, SearchDate: `${value.year}-${value.month + 1}-${value.day}` };
+            this.store$.dispatch(getCandidates({ payload: this.filter }));
+        });
+
+        this.searchForm.get('formSearchInterviewer')?.valueChanges.pipe(
+            takeUntil(this.destroySubject$)
+        ).subscribe(value => {
+            if (value)
+                this.filter = {...this.filter, InterviewerId: value.id };
+            else
+                this.filter = {...this.filter, InterviewerId: '' };
+            this.store$.dispatch(getCandidates({ payload: this.filter }));
+        });
     }
 
-    filterCandidate(type: number) {
-        switch (type) {
-            case 0:
-                this.filter.SearchName = this.searchName;
-                break;
-            case 1:
-                if (this.searchDate)
-                    this.filter.SearchDate = new Date(this.searchDate?.year, this.searchDate?.month, this.searchDate?.day, 0, 0, 0, 0);
-                else
-                    this.filter.SearchDate = null;
-                break;
-            case 2:
-                this.filter.InterviewerId = this.interviewer.Id;
-                break;
-        }
+    ngOnDestroy(): void {
+        this.destroySubject$.next(true);
+        this.destroySubject$.complete();
     }
 }

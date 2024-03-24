@@ -17,12 +17,12 @@ namespace Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Candidate>().HasData(
-                new Candidate(new Guid("8669411c-4647-4861-9999-54ada55d1e9b")) { FirstName = "Nhat", LastName = "Phan", Email = "nhat.phan@gmail.com", PhoneNumber = "0123456789", Status = Domain.Common.Enum.CandidateStatusEnum.Applied, DateCreated = DateTime.Now },
-                new Candidate(new Guid("496818f0-f2d8-4229-99d8-90b4453a37ee")) { FirstName = "Nam", LastName = "Nguyen", Email = "nam.nguyen@gmail.com", PhoneNumber = "0123456789", Status = Domain.Common.Enum.CandidateStatusEnum.Interviewing, DateCreated = DateTime.Now },
-                new Candidate(new Guid("e447210a-1e8c-47b9-b478-a9193c25e7e0")) { FirstName = "Hang", LastName = "Truong", Email = "hang.truong@gmail.com", PhoneNumber = "0123456787", Status = Domain.Common.Enum.CandidateStatusEnum.Hired, DateCreated = DateTime.Now },
-                new Candidate(new Guid("3116ba7e-1c7d-4469-a283-dddc812acc76")) { FirstName = "Nhi", LastName = "Nguyen", Email = "nhi.nguyen@gmail.com", PhoneNumber = "0123456786", Status = Domain.Common.Enum.CandidateStatusEnum.Offered, DateCreated = DateTime.Now },
-                new Candidate(new Guid("aa9be609-2e88-40f2-8996-6e674fad71fb")) { FirstName = "Phong", LastName = "Van", Email = "phong.van@gmail.com", PhoneNumber = "0123456785", Status = Domain.Common.Enum.CandidateStatusEnum.Applied, DateCreated = DateTime.Now },
-                new Candidate(new Guid("6e0d64ba-a4af-4306-afaa-9028dabdc5c5")) { FirstName = "Huy", LastName = "Nguyen", Email = "huy.nguyen@gmail.com", PhoneNumber = "0123456784", Status = Domain.Common.Enum.CandidateStatusEnum.Interviewing, DateCreated = DateTime.Now }
+                new Candidate(new Guid("8669411c-4647-4861-9999-54ada55d1e9b")) { FirstName = "Nhat", LastName = "Phan", Email = "nhat.phan@gmail.com", PhoneNumber = "0123456789", Status = Domain.Common.Enum.CandidateStatusEnum.Applied, DateCreated = DateTime.Now.AddMinutes(1) },
+                new Candidate(new Guid("496818f0-f2d8-4229-99d8-90b4453a37ee")) { FirstName = "Nam", LastName = "Nguyen", Email = "nam.nguyen@gmail.com", PhoneNumber = "0123456789", Status = Domain.Common.Enum.CandidateStatusEnum.Interviewing, DateCreated = DateTime.Now.AddMinutes(2) },
+                new Candidate(new Guid("e447210a-1e8c-47b9-b478-a9193c25e7e0")) { FirstName = "Hang", LastName = "Truong", Email = "hang.truong@gmail.com", PhoneNumber = "0123456787", Status = Domain.Common.Enum.CandidateStatusEnum.Hired, DateCreated = DateTime.Now.AddMinutes(3) },
+                new Candidate(new Guid("3116ba7e-1c7d-4469-a283-dddc812acc76")) { FirstName = "Nhi", LastName = "Nguyen", Email = "nhi.nguyen@gmail.com", PhoneNumber = "0123456786", Status = Domain.Common.Enum.CandidateStatusEnum.Offered, DateCreated = DateTime.Now.AddMinutes(4) },
+                new Candidate(new Guid("aa9be609-2e88-40f2-8996-6e674fad71fb")) { FirstName = "Phong", LastName = "Van", Email = "phong.van@gmail.com", PhoneNumber = "0123456785", Status = Domain.Common.Enum.CandidateStatusEnum.Applied, DateCreated = DateTime.Now.AddMinutes(5) },
+                new Candidate(new Guid("6e0d64ba-a4af-4306-afaa-9028dabdc5c5")) { FirstName = "Huy", LastName = "Nguyen", Email = "huy.nguyen@gmail.com", PhoneNumber = "0123456784", Status = Domain.Common.Enum.CandidateStatusEnum.Interviewing, DateCreated = DateTime.Now.AddMinutes(6) }
             );
 
             modelBuilder.Entity<Interviewer>().HasData(

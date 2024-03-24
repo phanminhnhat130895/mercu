@@ -5,7 +5,7 @@ import { CandidateDetailComponent } from './pages/candidate-detail/candidate-det
 
 const routes: Routes = [
   { path: '', component: CandidateListComponent },
-  { path: '/candidate-detail/:id', component: CandidateDetailComponent }
+  { path: 'candidate-detail/:id', component: CandidateDetailComponent }
 ];
 
 @NgModule({

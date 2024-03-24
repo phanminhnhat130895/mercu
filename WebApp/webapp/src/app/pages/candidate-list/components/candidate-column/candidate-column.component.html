@@ -1,6 +1,10 @@
-<div *ngFor="let candidate of candidates">
-    <div (drop)="onDropCandidate()">
-        <h3>{{ StatusName(status) }}</h3>
-        <app-cadidate-card [candidate]="candidate"></app-cadidate-card>
+<div class="column-container" (drop)="onDropCandidate()" (dragover)="onDragOver($event)">
+    <h3>{{ StatusName(status) }}</h3>
+    <div *ngFor="let candidate of candidates">
+        <div>
+            <div class="padding-r-2 margin-bottom-2">
+                <app-candidate-card [candidate]="candidate"></app-candidate-card>
+            </div>
+        </div>
     </div>
 </div>

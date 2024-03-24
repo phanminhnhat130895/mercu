@@ -14,11 +14,15 @@ import { StoreModule } from '@ngrx/store';
 import { CandidateCardComponent } from './pages/candidate-list/components/candidate-card/candidate-card.component';
 import { CandidateColumnComponent } from './pages/candidate-list/components/candidate-column/candidate-column.component';
 import { TuiCardModule, TuiIconModule } from '@taiga-ui/experimental';
-import { TuiInputModule, TuiDataListWrapperModule, TuiSelectModule, TuiInputDateModule } from '@taiga-ui/kit';
-import { TuiDataListModule, TuiButtonModule, TuiErrorModule, TuiLoaderModule, TuiAlertModule, TuiRootModule } from '@taiga-ui/core';
+import { TuiInputModule, TuiDataListWrapperModule, TuiSelectModule, TuiInputDateModule, TuiFieldErrorPipeModule, 
+  TuiInputPhoneInternationalModule } from '@taiga-ui/kit';
+import { TuiDataListModule, TuiButtonModule, TuiErrorModule, TuiLoaderModule, TuiAlertModule, TuiRootModule,
+  TuiTextfieldControllerModule } from '@taiga-ui/core';
+import { TuiTableModule } from '@taiga-ui/addon-table';
 import { DebounceClickDirective } from './directives/debounce-click.directive';
-import { DebounceInputDirective } from './directives/debounce-input.directive';
 import { TruncatePipe } from './pipes/truncate.pipe';
+import { AppStoreModule } from './store';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,6 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     CandidateCardComponent,
     CandidateColumnComponent,
     DebounceClickDirective,
-    DebounceInputDirective,
     TruncatePipe
   ],
   imports: [
@@ -49,7 +52,13 @@ import { TruncatePipe } from './pipes/truncate.pipe';
     TuiButtonModule,
     TuiErrorModule,
     TuiLoaderModule,
-    TuiAlertModule
+    TuiAlertModule,
+    TuiFieldErrorPipeModule,
+    TuiInputPhoneInternationalModule,
+    TuiTableModule,
+    AppStoreModule,
+    HttpClientModule,
+    TuiTextfieldControllerModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ConfigInterceptor, multi: true },

@@ -1,10 +1,11 @@
-import { createAction, props } from "@ngrx/store";
+import { Action, createAction, props } from "@ngrx/store";
 import { CandidateFilterModel } from "../models/output/get-candidate-filter.model";
 import { CandidateModel } from "../models/input/candidate.model";
 import { InterviewerModel } from "../models/input/interviewer.model";
-import { UpdateCandidateModel } from "../models/output/update-candidate.model";
+import { UpdateCandidateRequest } from "../models/output/update-candidate.model";
 import { CandidatesModel } from "../models/input/candidates.model";
-import { UpdateCandidatesStatus } from "../models/output/update-candidates-status.model";
+import { CandidateStatusEnum } from "../common/enums/CandidateStatusEnum";
+import { UpdateCandidatesStatusRequest } from "../models/output/update-candidates-status.model";
 
 enum ActionTypes {
     GET_CANDIDATES = 'Get Candidates',
@@ -13,8 +14,6 @@ enum ActionTypes {
     GET_INTERVIEWERS = 'Get Interviewers',
     GET_INTERVIEWERS_SUCCESS = 'Get Interviewers Success',
     GET_INTERVIEWERS_ERROR = 'Get Interviewers Error',
-    GET_ISLOADING = 'Get IsLoading',
-    GET_ISUPDATING = 'Get IsUpdating',
     UPDATE_CANDIDATE = 'Update Candidate',
     UPDATE_CANDIDATE_SUCCESS = 'Update Candidate Success',
     UPDATE_CANDIDATE_ERROR = 'Update Candidate Error',
@@ -26,7 +25,8 @@ enum ActionTypes {
     GET_DRAG_CANDIDATES = 'Get Drag Candidates',
     UPDATE_CANDIDATES_STATUS = 'Update Candidates Status',
     UPDATE_CANDIDATES_STATUS_SUCCESS = 'Update Candidates Status Success',
-    UPDATE_CANDIDATES_STATUS_ERROR = 'Update Candidates Status Error'
+    UPDATE_CANDIDATES_STATUS_ERROR = 'Update Candidates Status Error',
+    SET_DRAG_STATUS = 'Set Drag Status',
 }
 
 export const getCandidates = createAction(ActionTypes.GET_CANDIDATES, props<{ payload: CandidateFilterModel }>());
@@ -41,11 +41,7 @@ export const getInterviewersSuccess = createAction(ActionTypes.GET_INTERVIEWERS_
 
 export const getInterviewersError = createAction(ActionTypes.GET_INTERVIEWERS_ERROR);
 
-export const getIsLoading = createAction(ActionTypes.GET_ISLOADING);
-
-export const getIsUpdating = createAction(ActionTypes.GET_ISUPDATING);
-
-export const updateCandidate = createAction(ActionTypes.UPDATE_CANDIDATE, props<{ payload: UpdateCandidateModel }>());
+export const updateCandidate = createAction(ActionTypes.UPDATE_CANDIDATE, props<{ payload: UpdateCandidateRequest }>());
 
 export const updateCandidateSuccess = createAction(ActionTypes.UPDATE_CANDIDATE_SUCCESS, props<{ candidate: CandidateModel }>());
 
@@ -63,8 +59,17 @@ export const removeCandidateToDrag = createAction(ActionTypes.REMOVE_CANDIDATE_T
 
 export const getDragCandidate = createAction(ActionTypes.GET_DRAG_CANDIDATES);
 
-export const updateCandidatesStatus = createAction(ActionTypes.UPDATE_CANDIDATES_STATUS, props<{ data: UpdateCandidatesStatus[] }>());
+export const updateCandidatesStatus = createAction(ActionTypes.UPDATE_CANDIDATES_STATUS, props<{ data: UpdateCandidatesStatusRequest }>());
 
-export const updateCandidatesStatusSuccess = createAction(ActionTypes.UPDATE_CANDIDATES_STATUS_SUCCESS, props<{ isSuccess: boolean }>());
+export const updateCandidatesStatusSuccess = createAction(ActionTypes.UPDATE_CANDIDATES_STATUS_SUCCESS, props<{ isSuccess: boolean, data: UpdateCandidatesStatusRequest }>());
 
 export const updateCandidatesStatusError = createAction(ActionTypes.UPDATE_CANDIDATES_STATUS_ERROR);
+
+export const setDragStatus = createAction(ActionTypes.SET_DRAG_STATUS, props<{ status: CandidateStatusEnum }>());
+
+export const STORAGE = '@ngrx/store/storage';
+
+export class Storage implements Action {
+    readonly type: string = STORAGE;
+    constructor(readonly payload: string) {}
+}

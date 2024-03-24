@@ -1,26 +1,25 @@
 <div
+    class="card"
     tuiCardLarge
     tuiSurface="elevated"
-    (click)="goToCandidateDetail()"
+    draggable="true"
     (dragstart)="onDragCandidate()"
 >
-    <header tuiHeader>
-        <h3 tuiTitle>{{candidate.FirstName}} - {{ candidate.LastName }}</h3>
+    <header tuiHeader (click)="goToCandidateDetail()">
+        <h3 class="title-link" tuiTitle>{{candidate.firstName}} - {{ candidate.lastName }}</h3>
     </header>
 
     <div>
-        <label><b>Email:</b> {{ candidate.Email }}</label>
+        <label><b>Email:</b> {{ candidate.email }}</label>
     </div>
 
     <div>
-        <label><b>Phone Number:</b> {{ candidate.PhoneNumber }}</label>
+        <label><b>Phone Number:</b> {{ candidate.phoneNumber }}</label>
     </div>
 
     <div>
-        <tui-checkbox
-            [ngModel]="isChecked"
-            (ngModelChanged)="onChecked()"
-            class="tui-space_bottom-3"
-        ></tui-checkbox>
+        <form [formGroup]="cardForm">
+            <input type="checkbox" formControlName="cardCheckBox" name="{{ candidate.id }}"> select and drag to update status
+        </form>
     </div>
 </div>

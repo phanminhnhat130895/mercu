@@ -14,9 +14,9 @@ namespace Infrastructure
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<DataContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<ICandidateRepository, CandidateRepository>();
-            services.AddScoped<IInterviewerRepository, InterviewerRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<ICandidateRepository, CandidateRepository>();
+            services.AddTransient<IInterviewerRepository, InterviewerRepository>();
         }
     }
 }

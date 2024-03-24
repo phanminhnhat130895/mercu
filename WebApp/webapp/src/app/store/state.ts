@@ -1,3 +1,4 @@
+import { CandidateStatusEnum } from "../common/enums/CandidateStatusEnum";
 import { CandidateModel } from "../models/input/candidate.model";
 import { CandidatesModel } from "../models/input/candidates.model";
 import { InterviewerModel } from "../models/input/interviewer.model";
@@ -12,6 +13,7 @@ export interface AppState {
     isLoadingSelectedCandidate: boolean;
     dragCandidates: CandidatesModel[];
     isUpdatingCandidateStatus: boolean;
+    dragCandidateStatus: CandidateStatusEnum;
 }
 
 export const initialState: AppState = {
@@ -23,5 +25,10 @@ export const initialState: AppState = {
     isUpdating: false,
     isLoadingSelectedCandidate: false,
     dragCandidates: [],
-    isUpdatingCandidateStatus: false
+    isUpdatingCandidateStatus: false,
+    dragCandidateStatus: CandidateStatusEnum.Applied
+}
+
+export interface RootState {
+    state: AppState
 }

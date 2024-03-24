@@ -1,6 +1,10 @@
-import { CandidateStatusEnum } from "../../common/enums/CandidateStatusEnum";
+import { CandidateStatusEnum } from "src/app/common/enums/CandidateStatusEnum";
+
+export class UpdateCandidatesStatusRequest {
+    public Data!: UpdateCandidatesStatus[];
+}
 
 export class UpdateCandidatesStatus {
-    public Id: string;
-    public Status: CandidateStatusEnum;
+    public id!: string;
+    public status!: CandidateStatusEnum;
 }

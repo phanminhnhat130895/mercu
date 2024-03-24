@@ -3,18 +3,22 @@ import { BaseModel } from "../base.model";
 import { InterviewerModel } from "./interviewer.model";
 import { JobModel } from "./job.model";
 
+export class CandidateRepsonse {
+    public candidate!: CandidateModel;
+}
+
 export class CandidateModel extends BaseModel {
-    public Id!: string;
-    public FirstName!: string;
-    public LastName!: string;
-    public PhoneNumber!: string;
-    public Email!: string;
-    public Status: CandidateStatusEnum;
-    public Jobs: CandidateJobViewModel[]
+    public id!: string;
+    public firstName!: string;
+    public lastName!: string;
+    public phoneNumber!: string;
+    public email!: string;
+    public status!: CandidateStatusEnum;
+    public jobs!: CandidateJobViewModel[]
 }
 
 export class CandidateJobViewModel {
-    public Id!: string;
-    public Job: JobModel;
-    public Interviewer: InterviewerModel;
+    public id!: string;
+    public job!: JobModel;
+    public interviewer!: InterviewerModel;
 }

@@ -1,28 +1,33 @@
 import { CommonModule } from "@angular/common";
-import { InjectionToken, NgModule } from "@angular/core";
-import { ActionReducer, ActionReducerMap, StoreModule } from "@ngrx/store";
-import { StateNames } from "./names";
-import { AppState } from "./state";
+import { NgModule } from "@angular/core";
+import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
 import { StateEffects } from "./effects";
-import { reducer } from './reducer';
-
-export const FEATURE_REDUCER_TOKEN = new InjectionToken<ActionReducerMap<AppState>>(`${StateNames.NAME} Reducers`);
+import { metaReducers, reducers } from './reducer';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from "src/environments/environment";
 
 @NgModule({
     imports: [
         CommonModule,
-        StoreModule.forFeature(StateNames.NAME, FEATURE_REDUCER_TOKEN),
-        EffectsModule.forFeature([StateEffects]),
+        StoreModule.forRoot(reducers, {
+            metaReducers,
+            runtimeChecks: {
+              strictStateImmutability: true,
+              strictActionImmutability: true,
+            },
+          }),
+        EffectsModule.forRoot([StateEffects]),
+        // Connects RouterModule with StoreModule, uses MinimalRouterStateSerializer by default
+        StoreRouterConnectingModule.forRoot(),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25, // Retains last 25 states
+            logOnly: environment.production, // Restrict extension to log-only mode
+        })
     ],
     declarations: [],
-    providers: [
-        StateEffects,
-        {
-            provide: FEATURE_REDUCER_TOKEN,
-            useFactory: (): ActionReducer<AppState> => reducer,
-        },
-    ],
+    providers: [],
 })
 export class AppStoreModule {
 }

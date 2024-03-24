@@ -1,3 +1,3 @@
 export class BaseModel {
-    public DateCreated!: Date;
+    public dateCreated!: Date;
 }

@@ -4,6 +4,7 @@ using Application;
 using Infrastructure;
 using Infrastructure.Data;
 using Serilog.Sinks.ApplicationInsights.TelemetryConverters;
+using System.Text.Json;
 
 namespace WebAPI
 {
@@ -28,7 +29,11 @@ namespace WebAPI
             builder.Services.ConfigureApiBehavior();
             builder.Services.ConfigureCorsPolicy();
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers()
+                            .AddJsonOptions(options =>
+                            {
+                                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                            });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

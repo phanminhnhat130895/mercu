@@ -1,5 +1,9 @@
+export class InterviewerRepsonse {
+    public interviewers!: InterviewerModel[];
+}
+
 export class InterviewerModel {
-    public Id!: string;
-    public FirstName!: string;
-    public LastName!: string;
+    public id!: string;
+    public firstName!: string;
+    public lastName!: string;
 }

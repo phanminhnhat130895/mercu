@@ -1,1 +1,60 @@
 /* You can add global styles to this file, and also import other style files */
+.container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.col_3 {
+    width: 25%;
+}
+
+.margin-bottom-2 {
+    margin-bottom: 2rem;
+}
+
+.row {
+    display: flex;
+}
+
+.padding-r-2 {
+    padding-right: 2rem;
+}
+
+.column-container {
+    min-height: 305px;
+    padding-left: 2rem;
+    margin: .5rem;
+    margin-top: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.title-link {
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.margin-r-5 {
+    margin-right: .5rem;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.search-control {
+    width: 20rem;
+}
+
+.margin-bottom-1 {
+    margin-bottom: 1rem;
+}
+
+.input-control {
+    width: 25rem;
+}
+
+.margin-top-2 {
+    margin-top: 2rem;
+}
